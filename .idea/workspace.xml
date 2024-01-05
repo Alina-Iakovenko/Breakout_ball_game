@@ -4,17 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="85866a00-58d7-45b4-807e-b6b48ec6db54" name="Changes" comment="breakout base and ext are ready">
-      <change afterPath="$PROJECT_DIR$/src/com/shpp/p2p/cs/aiakovenko/assignment4/BreakoutExtVol1.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/shpp/p2p/cs/aiakovenko/assignment4/BreakoutVol1.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/9/2/924f089edb4af5ee45c8a9d1129cd28e2b368138" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/9/2/924f089edb4af5ee45c8a9d1129cd28e2b368138" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" afterDir="false" />
+    <list default="true" id="85866a00-58d7-45b4-807e-b6b48ec6db54" name="Changes" comment="Зміни:&#10;&#10;1) кути падіння-відбивання згідно фізичним законам: &#10;&#9;від бокових меж вікна і від бокової сторони цеглинки - &#10;&#9;змінюється х на протилежний&#10;&#9;від верхньої межі вікна, від верху-низу цеглинки, від ракетки - &#10;&#9;змінюється y на протилежний&#10;&#9;від кутів цеглинки - міняється і x і y на протилежні&#10;2) в методі run циклі while замінила if на waitForClick(); сподіваючись, &#10;що це вирішить ситуацію коли в мене працює все, а в рев'юверів &#10;булеве значення змінюється, але кулька не починає рухатись, &#10;але перевірити чи це вирішило проблему не можу - в мене досі все працює ;)&#10;&#10;3) В Ext виправила був пов'язаний із &#10;зверненням до неіснуючого м'ячика-індикатора останнього життя">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/shpp/p2p/cs/aiakovenko/assignment4/Breakout.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/shpp/p2p/cs/aiakovenko/assignment4/Breakout.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/shpp/p2p/cs/aiakovenko/assignment4/BreakoutExt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/shpp/p2p/cs/aiakovenko/assignment4/BreakoutExt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/shpp/p2p/cs/aiakovenko/assignment4/BreakoutVol1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/shpp/p2p/cs/aiakovenko/assignment4/BreakoutVol1.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,21 +32,21 @@
     <option name="showLibraryContents" value="true" />
     <option name="showVisibilityIcons" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "D:/StudyingIT/sh++/computerScience/week4",
-    "project.structure.last.edited": "Libraries",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "configurable.group.appearance"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/StudyingIT/sh++/computerScience/week4&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.appearance&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\StudyingIT\sh++\computerScience\week4\src\com\shpp\p2p\cs" />
@@ -141,12 +135,21 @@
       <option name="project" value="LOCAL" />
       <updated>1703944299626</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Зміни:&#10;&#10;1) кути падіння-відбивання згідно фізичним законам: &#10;&#9;від бокових меж вікна і від бокової сторони цеглинки - &#10;&#9;змінюється х на протилежний&#10;&#9;від верхньої межі вікна, від верху-низу цеглинки, від ракетки - &#10;&#9;змінюється y на протилежний&#10;&#9;від кутів цеглинки - міняється і x і y на протилежні&#10;2) в методі run циклі while замінила if на waitForClick(); сподіваючись, &#10;що це вирішить ситуацію коли в мене працює все, а в рев'юверів &#10;булеве значення змінюється, але кулька не починає рухатись, &#10;але перевірити чи це вирішило проблему не можу - в мене досі все працює ;)&#10;&#10;3) В Ext виправила був пов'язаний із &#10;зверненням до неіснуючого м'ячика-індикатора останнього життя">
+      <option name="closed" value="true" />
+      <created>1704455649453</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1704455649453</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="breakout base and ext are ready" />
-    <option name="LAST_COMMIT_MESSAGE" value="breakout base and ext are ready" />
+    <MESSAGE value="Зміни:&#10;&#10;1) кути падіння-відбивання згідно фізичним законам: &#10;&#9;від бокових меж вікна і від бокової сторони цеглинки - &#10;&#9;змінюється х на протилежний&#10;&#9;від верхньої межі вікна, від верху-низу цеглинки, від ракетки - &#10;&#9;змінюється y на протилежний&#10;&#9;від кутів цеглинки - міняється і x і y на протилежні&#10;2) в методі run циклі while замінила if на waitForClick(); сподіваючись, &#10;що це вирішить ситуацію коли в мене працює все, а в рев'юверів &#10;булеве значення змінюється, але кулька не починає рухатись, &#10;але перевірити чи це вирішило проблему не можу - в мене досі все працює ;)&#10;&#10;3) В Ext виправила був пов'язаний із &#10;зверненням до неіснуючого м'ячика-індикатора останнього життя" />
+    <option name="LAST_COMMIT_MESSAGE" value="Зміни:&#10;&#10;1) кути падіння-відбивання згідно фізичним законам: &#10;&#9;від бокових меж вікна і від бокової сторони цеглинки - &#10;&#9;змінюється х на протилежний&#10;&#9;від верхньої межі вікна, від верху-низу цеглинки, від ракетки - &#10;&#9;змінюється y на протилежний&#10;&#9;від кутів цеглинки - міняється і x і y на протилежні&#10;2) в методі run циклі while замінила if на waitForClick(); сподіваючись, &#10;що це вирішить ситуацію коли в мене працює все, а в рев'юверів &#10;булеве значення змінюється, але кулька не починає рухатись, &#10;але перевірити чи це вирішило проблему не можу - в мене досі все працює ;)&#10;&#10;3) В Ext виправила був пов'язаний із &#10;зверненням до неіснуючого м'ячика-індикатора останнього життя" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -185,5 +188,27 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="com.gk646.codestats.settings.Save">
+    <option name="commitTimePoints">
+      <list>
+        <TimePoint>
+          <option name="timestamp" value="1704455649547" />
+          <option name="linesCode" value="2489" />
+          <option name="totalLines" value="131439" />
+          <option name="info" value="Зміни:&#10;&#10;1) кути падіння-в" />
+        </TimePoint>
+      </list>
+    </option>
+    <option name="genericTimePoints">
+      <list>
+        <TimePoint>
+          <option name="timestamp" value="1704455649547" />
+          <option name="linesCode" value="2489" />
+          <option name="totalLines" value="131439" />
+          <option name="info" value="5 січ. 2024 р." />
+        </TimePoint>
+      </list>
+    </option>
   </component>
 </project>

@@ -108,7 +108,7 @@ public class BreakoutExt extends WindowProgram {
     /**
      * Radius of the ball in pixels
      */
-    private static final int BALL_RADIUS = 5;
+    private static final int BALL_RADIUS = 10;
     private static final int BALL_DIAMETER = BALL_RADIUS * 2;
     /**
      * Displacement of the ball
@@ -185,12 +185,12 @@ public class BreakoutExt extends WindowProgram {
     public void mouseMoved(MouseEvent mouseMove) {
         double newX = 0;
         /* Setting rules for movement between windows bounds */
-        if ((mouseMove.getX() + PADDLE_WIDTH) > getWidth()) {
-            newX = mouseMove.getX() - PADDLE_WIDTH; // stop the paddle before the right wall
-        } else if ((mouseMove.getX()) - PADDLE_WIDTH < 0) {
+        if ((mouseMove.getX() + PADDLE_WIDTH/2) > getWidth()) {
+            newX = getWidth() - PADDLE_WIDTH; // stop the paddle before the right wall
+        } else if ((mouseMove.getX()) - PADDLE_WIDTH/2 < 0) {
             newX = 0; // stop the paddle before the left wall
         } else {
-            newX = mouseMove.getX() - PADDLE_WIDTH; //
+            newX = mouseMove.getX() - PADDLE_WIDTH/2; //
         }
         paddle.setLocation(newX, getHeight() - PADDLE_Y_OFFSET);
     }
@@ -240,17 +240,17 @@ public class BreakoutExt extends WindowProgram {
      */
     private void getNumberOfTries() {
         GLabel tries = setTextForLabel("You have: ");
-        tries.setLocation(BALL_DIAMETER, getHeight() - 5);
+        tries.setLocation(BALL_RADIUS, getHeight() - 5);
 
-        double x = BALL_DIAMETER + tries.getWidth();
-        double y = getHeight() - 5 - BALL_DIAMETER;
+        double x = BALL_RADIUS + tries.getWidth();
+        double y = getHeight() - 5 - BALL_RADIUS;
         remainedBalls = new ArrayList<>();
         for (int i = 0; i < nturns; i++) {
-            remainedBalls.add(new GOval(x, y, BALL_DIAMETER, BALL_DIAMETER));
+            remainedBalls.add(new GOval(x, y, BALL_RADIUS, BALL_RADIUS));
             remainedBalls.get(i).setFilled(true);
             remainedBalls.get(i).setColor(Color.GRAY);
             add(remainedBalls.get(i));
-            x += BALL_DIAMETER * 1.5;
+            x += BALL_RADIUS * 1.5;
         }
     }
 

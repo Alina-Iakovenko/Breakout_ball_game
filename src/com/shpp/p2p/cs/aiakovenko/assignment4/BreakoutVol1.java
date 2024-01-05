@@ -150,12 +150,12 @@ public class BreakoutVol1 extends WindowProgram {
     public void mouseMoved(MouseEvent mouseMove) {
         double newX = 0;
         /* Setting rules for movement between windows bounds */
-        if ((mouseMove.getX() + PADDLE_WIDTH) > getWidth()) {
-            newX = mouseMove.getX() - PADDLE_WIDTH; // stop the paddle before the right wall
-        } else if ((mouseMove.getX()) - PADDLE_WIDTH < 0) {
+        if ((mouseMove.getX() + PADDLE_WIDTH/2) > getWidth()) {
+            newX = getWidth() - PADDLE_WIDTH; // stop the paddle before the right wall
+        } else if ((mouseMove.getX()) - PADDLE_WIDTH/2 < 0) {
             newX = 0; // stop the paddle before the left wall
         } else {
-            newX = mouseMove.getX() - PADDLE_WIDTH; //
+            newX = mouseMove.getX() - PADDLE_WIDTH/2; //
         }
         paddle.setLocation(newX, getHeight() - PADDLE_Y_OFFSET);
     }
