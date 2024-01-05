@@ -1,6 +1,4 @@
 
-=
-src/Main.java,9\2\924f089edb4af5ee45c8a9d1129cd28e2b368138
 D
 src/study/Task1.java,e\7\e7d7106f12ac942247599a5f66ba87a4aaabe85f
 Q
@@ -21,8 +19,6 @@ h
 8src/study/src/com/shpp/cs/a/lectures/lec10/StdAudio.java,d\6\d683099babb8c853005e21e3401818fad5ea8a73
 h
 8src/com/shpp/p2p/cs/aiakovenko/assignment4/Breakout.java,d\8\d8787d0262a6c3ca46d5ff4871fea77e2f9d2149
-r
-Bsrc/com/shpp/p2p/cs/aiakovenko/assignment4/MouseListenerStudy.java,a\5\a521c88ffd5ca6c507c22376b3ce7b1ac6cc5aad
 _
 /10-EventDrivenPrograms/BorderLayoutExample.java,1\f\1f507a045ff4fbde37c6edecf328656ff76a794e
 V
@@ -41,8 +37,6 @@ k
 -.idea/sonarlint/securityhotspotstore/index.pb,8\8\88a9255124c95bdc913197c120a8d560edc59c8e
 Å
 Q.idea/sonarlint/securityhotspotstore/e/7/e7d7106f12ac942247599a5f66ba87a4aaabe85f,0\5\053d2ac8500a86ac543c399ceaeb082f00e1567c
-w
-G.idea/sonarlint/issuestore/9/2/924f089edb4af5ee45c8a9d1129cd28e2b368138,f\a\fa75e75cdcbcdff2b0010bc7325ef5a408f526cd
 Å
 Q.idea/sonarlint/securityhotspotstore/4/4/44d572c7df83e96b44db1fbad50dece90cf20401,8\5\8507d8d8d7bd7651d819bf43b9b35ee971288167
 w
@@ -51,10 +45,14 @@ G.idea/sonarlint/issuestore/e/4/e404203388b4778816ffa564101c78a4c1c2ee8f,6\7\67
 Q.idea/sonarlint/securityhotspotstore/e/4/e404203388b4778816ffa564101c78a4c1c2ee8f,5\3\53f4df2d2aadeec2ac7fd3339c3d71c983e23c56
 T
 $.idea/libraries/shpp_cs_java_lib.xml,3\f\3fa53187875fa03eccd2cf28d57817a7e15fdd18
-Å
-Q.idea/sonarlint/securityhotspotstore/9/2/924f089edb4af5ee45c8a9d1129cd28e2b368138,b\0\b08f1ab659fbdd998f45c0def99188f980cc899b
 S
 #.idea/sonarlint/issuestore/index.pb,9\f\9fe84ebb15faf917b7def6236dba604453cc61e0
 :
 
 .gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
+h
+8src/com/shpp/p2p/cs/vromanenko/assignment4/Breakout.java,e\8\e885ca0706da7e785fba683b5d860b92604d3725
+l
+<src/com/shpp/p2p/cs/aiakovenko/assignment4/BreakoutVol1.java,2\1\21d2ea307c34982c0df6277b443576cfc7e2a167
+o
+?src/com/shpp/p2p/cs/aiakovenko/assignment4/BreakoutExtVol1.java,c\8\c83a24e92837fb8ee94034344d7038e0284f2c44

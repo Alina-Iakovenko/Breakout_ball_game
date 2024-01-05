@@ -6,13 +6,17 @@ import com.shpp.cs.a.graphics.WindowProgram;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
-
+import java.util.ArrayList;
 /**
- * The player should hit the ball with the padlle to break all bricks.
+ * The player should hit the ball with the paddle to break all bricks.
+ * Information about the total quantity of bricks and broken brick is on the left top corner.
+ * The speed of the ball changes every tenth of a brick is broken and is shown under bricks info.
+ * Bricks with different colors have different values and effect to score.
+ * The Score is on the right bottom corner.
  * When the ball is falling down, the attempt is failed.
- * There are 3 attempts in the game.
- */
-public class Breakout extends WindowProgram {
+ * There are 3 attempts in the game shown in the left bottom corner.
+ * */
+public class BreakoutExtVol1 extends WindowProgram {
     /* General block */
     /**
      * Width and height of application window in pixels
@@ -33,13 +37,25 @@ public class Breakout extends WindowProgram {
      */
     private static int nturns = 3;
     /**
+     * ArrayList to get info about left tries
+     */
+    ArrayList<GOval> remainedBalls;
+    /**
      * Boolean for start/finish of the game
      */
-    private boolean gameIsStarted;
+    private boolean gameIsStarted = false;
     /**
      * Label with info how to start the game
      */
     GLabel start;
+    /**
+     * Variable for score
+     */
+    int score = 0;
+    /**
+     * Label to get info about the score
+     */
+    GLabel scoreRate;
     /* Paddle block */
     /**
      * Dimensions of the paddle
@@ -83,6 +99,10 @@ public class Breakout extends WindowProgram {
      * Number of remained bricks
      */
     private int brokenBricks = 0;
+    /**
+     * Lable to get info about number of bricks
+     */
+    GLabel bricksInfo;
     /* Ball block */
     /**
      * Radius of the ball in pixels
@@ -95,23 +115,34 @@ public class Breakout extends WindowProgram {
     private double vx = 0; // will be changed with random generator
     private double vy = 3.0; //will be changed according to falling down or up
     /**
+     * Label to get info about speed
+     */
+    GLabel speedInfo;
+    /**
+     * Speed of the ball
+     */
+    int speed = 0;
+    /**
      * Variable for the ball
      */
     GOval ball;
 
     public void run() {
         buildTheWall(); // paint bricks
+        getBricksInfo(brokenBricks); // print info about total and remained bricks
+        getSpeedInfoAndSetSpeed(brokenBricks); // print info about ball's speed
+        getNumberOfTries(); // print info about left tries
+        getScoreRate(score); // print info about score
         createPaddle(); // create the paddle
         createBall(); // create the ball
         getStartText(); // instruction how to start
         addMouseListeners(); // add MouseListener to conduct the game
         while (true) {
-            waitForClick(); // EDITED на waitForClick();
-            startToPlay(); // start of the ball's movement
-
+            if (gameIsStarted==true) {
+                startToPlay(); // start of the ball's movement
+            }
         }
     }
-
     /**
      * Sets the rules for ball's moving
      */
@@ -126,13 +157,12 @@ public class Breakout extends WindowProgram {
             vy += 3.0 / getHeight(); // change the ball's speed according to the direction of movement and height
             // System.out.println(vy); // the row to check if the speed is changing
             movingBallAndBouncingOffWalls(); // rules for ball movement in the window and when meet a left, top and right window's bound
-            hittingWithPaddle(); // rules for ball when meet the paddle
-            brakingBricksWithPhisicsRules(); // rules for ball when meet the brick
+            hittingWithPaddle(rgen); // rules for ball when meet the paddle
+            brakingBricks(rgen); // rules for ball when meet the brick
             fallingOut(); // when the ball falls out of bottom bound
             pause(pauseTime); // set pause for animation
         }
     }
-
     /**
      * Clicked mouse removes instruction how to start the game,
      * makes the ball visible and changes boolean
@@ -145,7 +175,6 @@ public class Breakout extends WindowProgram {
             gameIsStarted = true;
         }
     }
-
     /**
      * Mouse movement moves the paddle
      * between windows bounds on the same height
@@ -162,7 +191,6 @@ public class Breakout extends WindowProgram {
         }
         paddle.setLocation(newX, getHeight() - PADDLE_Y_OFFSET);
     }
-
     /**
      * Adds text to labels with setted font and color
      * and creates the blank for label
@@ -174,7 +202,6 @@ public class Breakout extends WindowProgram {
         add(label);
         return label;
     }
-
     /**
      * Lable with instruction how to star the game
      * disposed in the center part of the window
@@ -183,7 +210,6 @@ public class Breakout extends WindowProgram {
         start = setTextForLabel("Click the mouse button to start");
         start.setLocation((int) ((getWidth() - start.getWidth()) / 2), (getHeight() / 2 + BALL_DIAMETER * 2));
     }
-
     /**
      * Lable for game over
      * disposed in the center part of the window
@@ -192,7 +218,92 @@ public class Breakout extends WindowProgram {
         start = setTextForLabel("Game is over");
         start.setLocation((int) ((getWidth() - start.getWidth()) / 2), (getHeight() / 2 + BALL_DIAMETER * 2));
     }
+    /**
+     * Lable with result of the game
+     * disposed in the center part of the window
+     */
+    private void getResult() {
+        GLabel result = setTextForLabel("You`ve broke " + brokenBricks + " bricks of " + TOTAL_BRICKS);
+        result.setLocation((int) ((getWidth() - result.getWidth()) / 2), (paddle.getY() - ball.getY() / 4));
+    }
+    /**
+     * Lable with the number of remaining attempts
+     * disposed in the left bottom part of the window
+     */
+    private void getNumberOfTries() {
+        GLabel tries = setTextForLabel("You have: ");
+        tries.setLocation(BALL_DIAMETER, getHeight() - 5);
 
+        double x = BALL_DIAMETER + tries.getWidth();
+        double y = getHeight() - 5 - BALL_DIAMETER;
+        remainedBalls = new ArrayList<>();
+        for (int i = 0; i < nturns; i++) {
+            remainedBalls.add(new GOval(x, y, BALL_DIAMETER, BALL_DIAMETER));
+            remainedBalls.get(i).setFilled(true);
+            remainedBalls.get(i).setColor(Color.GRAY);
+            add(remainedBalls.get(i));
+            x += BALL_DIAMETER * 1.5;
+        }
+    }
+    /**
+     * Lable with the score rate
+     * disposed in the right bottom part of the window
+     */
+    private void getScoreRate(int score) {
+        if (scoreRate != null) {
+            remove(scoreRate);
+        }
+        scoreRate = setTextForLabel("Your score is:" + score);
+        scoreRate.setLocation(getWidth() - scoreRate.getWidth() - 30, getHeight() - 5);
+    }
+    /**
+     * Lable with the number of remaining and total bricks
+     * disposed in the left top part of the window
+     */
+    private void getBricksInfo(int brokenBricks) {
+        if (bricksInfo != null) {
+            remove(bricksInfo);
+        }
+        bricksInfo = setTextForLabel("There are " + (TOTAL_BRICKS - brokenBricks) + " of " + TOTAL_BRICKS + " bricks left");
+        bricksInfo.setLocation(BALL_DIAMETER, BALL_DIAMETER);
+    }
+    /**
+     * Sets the speed according to broken bricks
+     * and print the lable with speed number
+     * disposed in the left top part of the window
+     */
+    private void getSpeedInfoAndSetSpeed(int brokenBricks) {
+        if (speedInfo != null) {
+            remove(speedInfo);
+        }
+        if ((int) (brokenBricks % (TOTAL_BRICKS / 10.0)) == 0) {
+            speed++;
+            pauseTime -= 1;
+        }
+        speedInfo = setTextForLabel("Your current speed is " + speed + " of 10");
+        speedInfo.setLocation(BALL_DIAMETER, BALL_DIAMETER * 2);
+    }
+    /**
+     * Increases the score according to the color of broken brick
+     */
+    private void addScore(GObject collidingObject) {
+        remove(scoreRate);
+        Color colorOfBrick = collidingObject.getColor(); // receive the color of broken brick
+        if (colorOfBrick == Color.RED) {
+            score += 50;
+        } else if (colorOfBrick == Color.ORANGE) {
+            score += 40;
+        } else if (colorOfBrick == Color.YELLOW) {
+            score += 30;
+        } else if (colorOfBrick == Color.GREEN) {
+            score += 20;
+        } else if (colorOfBrick == Color.CYAN) {
+            score += 10;
+        } else if (colorOfBrick == Color.BLUE) {
+            score += 5;
+        }
+        getScoreRate(score);
+    }
     /**
      * Paints default number of rows
      * with default number of bricks
@@ -202,7 +313,6 @@ public class Breakout extends WindowProgram {
     private void buildTheWall() {
         int colorIndex = 0;
         double yBrick = BRICK_Y_OFFSET;
-
         for (int i = 0; i < NBRICK_ROWS; i++) {
             colorIndex = (i / 2) % 5; //get index for next of 5 color in every 2nd row
             Color color = getColorForRow(colorIndex);
@@ -216,7 +326,6 @@ public class Breakout extends WindowProgram {
             yBrick += BRICK_HEIGHT + BRICK_SEP; // set the y-coordinate for the next row of bricks
         }
     }
-
     /**
      * Sets the color to index
      */
@@ -243,7 +352,6 @@ public class Breakout extends WindowProgram {
         }
         return color;
     }
-
     /**
      * Creates the brick's blank to use it when builds the wall
      */
@@ -254,7 +362,6 @@ public class Breakout extends WindowProgram {
         brick.setColor(color);
         return brick;
     }
-
     /**
      * Creates the black invisible ball
      * disposed between the paddle and the latest row of bricks
@@ -267,11 +374,10 @@ public class Breakout extends WindowProgram {
                 ) / 2;
         ball = new GOval((getWidth() - BALL_DIAMETER) / 2, yStart, BALL_DIAMETER, BALL_DIAMETER);
         ball.setFilled(true);
-        ball.setColor(Color.black);
+        ball.setColor(Color.DARK_GRAY);
         ball.setVisible(false); // for case when starting text is on the same height
         add(ball);
     }
-
     /**
      * Creates the black rectangle paddle with set width and height
      * disposed on the bottom of the window with set offset
@@ -280,10 +386,9 @@ public class Breakout extends WindowProgram {
     private void createPaddle() {
         paddle = new GRect((getWidth() - PADDLE_WIDTH) / 2, getHeight() - PADDLE_Y_OFFSET, PADDLE_WIDTH, PADDLE_HEIGHT);
         paddle.setFilled(true);
-        paddle.setColor(Color.black);
+        paddle.setColor(Color.DARK_GRAY);
         add(paddle);
     }
-
     /**
      * Sets rules for ball movement in the window
      * and when meet a left, top and right window's bound
@@ -305,13 +410,13 @@ public class Breakout extends WindowProgram {
             vy = -vy;
         }
     }
-
     /**
      * Sets rules when the ball falls out of bottom bound
      */
     private void fallingOut() {
         if (ball.getY() > getHeight()) {
             nturns--;
+            remainedBalls.get(nturns).setFilled(false); // make unfilled 1 ball that indicate tries
             remove(ball); // remove the ball to be able to create a new more for next try
             gameIsStarted = false; // change boolean to pause the game and makes possible starting of next try only after mouse click
             if (nturns > 0) { // if tries aren`t ended
@@ -319,16 +424,15 @@ public class Breakout extends WindowProgram {
                 getStartText(); // print starting text
             } else { // if tries are ended
                 getGameOverText();
+                getResult(); // print info about broken bricks
             }
 //            vy = -vy; // line for lazy test
         }
     }
-
     /**
-     * Checks if the ball`s corners contacts another object and return the object if true
+     * Checks if the ball contacts another object and return the object if true
      */
-    private GObject cornerCollider() {
-
+    private GObject getCollidingObject() {
         GObject object = null; // creat the blank for the object
 
         /* Gets 4 points of vertexes of a square that is described around a ball to use it for checking if there is a contact  */
@@ -336,8 +440,7 @@ public class Breakout extends WindowProgram {
         GPoint rightTopBall = new GPoint(ball.getX() + BALL_DIAMETER, ball.getY());
         GPoint leftBottomBall = new GPoint(ball.getX(), ball.getY() + BALL_DIAMETER);
         GPoint rightBottomBall = new GPoint(ball.getX() + BALL_DIAMETER, ball.getY() + BALL_DIAMETER);
-
-        /* Creats an array of the corner points */
+        /* Creats an array of the points */
         GPoint[] ballCorners = {
                 leftTopBall,
                 rightTopBall,
@@ -353,111 +456,47 @@ public class Breakout extends WindowProgram {
         }
         return object;
     }
-
-    /**
-     * Checks if top or bottom of the ball contacts another object and return the object if true
-     */
-    private GObject topBottomCollider() {
-        GObject object = null; // creat the blank for the object
-
-        /* Gets top and bottom points to use it for checking if there is a contact  */
-        GPoint centerTopBall = new GPoint(ball.getX() + BALL_RADIUS, ball.getY() - 1);
-        GPoint centerBottomBall = new GPoint(ball.getX() + BALL_RADIUS, ball.getY() + BALL_DIAMETER + 1);
-
-        /* Creats an array of the top and bottom side center points */
-        GPoint[] ballTopBottomCenter = {
-                centerTopBall,
-                centerBottomBall,
-        };
-        /* Checks if any of the points is on another object */
-        for (int i = 0; i < ballTopBottomCenter.length; i++) {
-            object = getElementAt(ballTopBottomCenter[i].getX(), ballTopBottomCenter[i].getY());
-            if (object != null) {
-                break;
-            }
-        }
-        return object;
-    }
-
-    /**
-     * Checks if right or left side of the ball contacts another object and return the object if true
-     */
-    private GObject leftRightCollider() {
-        GObject object = null; // creat the blank for the object
-
-        /* Gets right and left side center points to use it for checking if there is a contact  */
-        GPoint centerRightBall = new GPoint(ball.getX() + BALL_DIAMETER + 1, ball.getY() + BALL_RADIUS);
-        GPoint centerLeftBall = new GPoint(ball.getX() - 1, ball.getY() + BALL_RADIUS);
-
-        /* Creats an array of the left and right side center points */
-        GPoint[] ballLeftRightSideCenter = {
-                centerRightBall,
-                centerLeftBall
-        };
-        /* Checks if any of the points is on another object */
-        for (int i = 0; i < ballLeftRightSideCenter.length; i++) {
-            object = getElementAt(ballLeftRightSideCenter[i].getX(), ballLeftRightSideCenter[i].getY());
-            if (object != null) {
-                break;
-            }
-        }
-        return object;
-    }
-
     /**
      * Changes the angle of ball's movement when meet the paddle
      */
-    private void hittingWithPaddle() {
-        if (topBottomCollider() == paddle
-                || leftRightCollider() == paddle
-                || cornerCollider() == paddle) {
+    private void hittingWithPaddle(RandomGenerator rgen) {
+        if (getCollidingObject() == paddle) {
             ball.setLocation(ball.getX(), getHeight() - PADDLE_Y_OFFSET - BALL_DIAMETER);
+            vx = rgen.nextDouble(1.0, 3.0);
+
             vy = -vy;
         }
     }
-
-    /***
-     * Brakes the brick by the ball and
-     * change the direction of ball's movement according to the colliding point
-     */
-    private void brakingBricksWithPhisicsRules() {
-        if (brakingBricks(topBottomCollider())) {
-            vy = -vy;
-        }
-        if (brakingBricks(leftRightCollider())) {
-            vx = -vx;
-        }
-        if (brakingBricks(cornerCollider())) {
-            vy = -vy;
-            vx = -vx;
-        }
-    }
-
-    /***
-     * The blank method for braking bricks
-     * @param object ball`s colliding object
-     * @return boolean
-     */
-    private boolean brakingBricks(GObject object) {
-        /* Checks if the object is a break (not null, not paddle and so on) */
-        if (object != paddle
-                && object != null
-                && !(object instanceof GLabel)
-                && !(object instanceof GOval)) {
+    /**
+     * Sets rules when the ball collides the brick
+     * */
+    private void brakingBricks(RandomGenerator rgen) {
+        if (getCollidingObject() != paddle
+                && getCollidingObject() != null
+                && !(getCollidingObject() instanceof GLabel)
+                && !(getCollidingObject() instanceof GOval)){
+            addScore(getCollidingObject()); // change the score
             brokenBricks++; //increase the number of broken bricks
-            remove(object); // remove the brick collided with the ball
+            getSpeedInfoAndSetSpeed(brokenBricks); // check if it's time to change the speed and reprint info about it
+            getBricksInfo(brokenBricks); // change the info about broken bricks
+            remove(getCollidingObject()); // remove the brick collided with the ball
             /* When all bricks are broken */
             if (brokenBricks == TOTAL_BRICKS) {
                 gameIsStarted = false;
+                remove(speedInfo);
                 remove(ball);
                 GLabel winner = setTextForLabel("You`re the WINNER!!!");
                 winner.setLocation((int) ((getWidth() - winner.getWidth()) / 2), (getHeight() / 2));
                 add(winner);
             }
-            return true;
+            /* Change the direction of ball's movement */
+            vy = -vy;
+            vx = rgen.nextDouble(1.0, 3.0);
+            /* Прибрати зміну кута по х при зіткненні зі стіною, цеглинкою, і ракеткою */
+//            if (rgen.nextBoolean(0.5)) {
+//                vx = -vx;
+//            }
         }
-        return false;
     }
 }
-
 
